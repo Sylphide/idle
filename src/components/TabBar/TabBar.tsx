@@ -1,18 +1,31 @@
+import type { ReactNode } from "react";
 import { cx } from "../../lib/cx";
 import styles from "./TabBar.module.css";
+import { MinePanel } from "../MinePanel";
+import { UpgradesPanel } from "../UpgradesPanel/UpgradesPanel";
+import { PrestigePanel } from "../PrestigePanel/PrestigePanel";
 
-export type Tab = "mine" | "upgrades" | "prestige";
+export enum Tab {
+  MINE = 'MINE',
+  UPGRADES = 'UPGRADES',
+  PRESTIGE = 'PRESTIGE',
+}
+export interface TabConfig {
+  key: Tab,
+  label: string;
+  component: ReactNode
+}
 
-const TABS: { key: Tab; label: string }[] = [
-  { key: "mine", label: "Mine" },
-  { key: "upgrades", label: "Upgrades" },
-  { key: "prestige", label: "Prestige" },
-];
+export const TABS: Record<Tab, TabConfig> = {
+  [Tab.MINE]: { key: Tab.MINE, label: "Mine", component: <MinePanel /> },
+  [Tab.UPGRADES]: { key: Tab.UPGRADES, label: "Upgrades", component: <UpgradesPanel /> },
+  [Tab.PRESTIGE]: { key: Tab.PRESTIGE, label: "Prestige", component: <PrestigePanel /> },
+}
 
 export function TabBar({ active, onChange }: { active: Tab; onChange: (tab: Tab) => void }) {
   return (
     <nav className={styles.tabs}>
-      {TABS.map((tab) => (
+      {Object.values(TABS).map((tab) => (
         <button
           key={tab.key}
           className={cx(styles.tab, active === tab.key && styles.active)}
