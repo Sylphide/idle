@@ -3,7 +3,6 @@ import { goldenChance } from "./formulas";
 import type { Rock, UpgradeLevels } from "./types";
 
 export const ROCKS_ON_SCREEN = 6;
-export const ROCKS_PER_ZONE_ADVANCE = 8;
 
 /** Picks a spot in the stage, biased away from already-placed rocks. */
 function randomPosition(existing: Rock[]): { x: number; y: number } {
@@ -25,9 +24,10 @@ function randomPosition(existing: Rock[]): { x: number; y: number } {
 
 export function spawnRock(upgrades: UpgradeLevels, zoneIndex: number, existing: Rock[]): Rock {
   const zone = zoneFor(zoneIndex);
+  const ore = Math.random() < zone.primaryShare ? zone.primary : zone.secondary;
   const variance = 0.85 + Math.random() * 0.3;
   const { x, y } = randomPosition(existing);
-  const hp = zone.baseHp * variance;
+  const hp = ore.baseHp.times(variance);
   return {
     id: `rock-${Math.random().toString(36).slice(2, 9)}`,
     x,
@@ -35,9 +35,9 @@ export function spawnRock(upgrades: UpgradeLevels, zoneIndex: number, existing: 
     size: 56 + Math.random() * 28,
     hp,
     maxHp: hp,
-    baseReward: zone.baseReward * variance,
+    baseReward: ore.baseReward.times(variance),
     isGolden: Math.random() < goldenChance(upgrades),
-    color: zone.color,
+    color: ore.color,
   };
 }
 

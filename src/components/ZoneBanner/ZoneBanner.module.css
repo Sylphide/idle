@@ -1,0 +1,48 @@
+.banner {
+  text-align: center;
+  padding: 8px;
+  background: var(--bg-alt);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.nav {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.nav:disabled {
+  opacity: 0.25;
+}
+
+.name {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.mix {
+  color: var(--accent);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.progress {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--text-dim);
+  opacity: 0.7;
+}

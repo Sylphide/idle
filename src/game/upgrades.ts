@@ -1,3 +1,4 @@
+import Decimal from "break_eternity.js";
 import type { GameState, UpgradeLevels } from "./types";
 
 export type UpgradeKey = keyof UpgradeLevels;
@@ -70,10 +71,12 @@ export const UPGRADES: UpgradeDef[] = [
   },
 ];
 
-export function upgradeCost(def: UpgradeDef, level: number): number {
-  return Math.ceil(def.baseCost * Math.pow(def.costGrowth, level));
+export function upgradeCost(def: UpgradeDef, level: number): Decimal {
+  // Decimal exponentiation (not Math.pow) since deep-game levels can push costGrowth^level
+  // well past what a float64 can represent.
+  return new Decimal(def.costGrowth).pow(level).times(def.baseCost).ceil();
 }
 
 export function canAfford(state: GameState, def: UpgradeDef): boolean {
-  return state.gold >= upgradeCost(def, state.upgrades[def.key]);
+  return state.gold.gte(upgradeCost(def, state.upgrades[def.key]));
 }

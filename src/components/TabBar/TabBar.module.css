@@ -1,0 +1,21 @@
+.tabs {
+  display: flex;
+  background: var(--panel);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab {
+  flex: 1;
+  padding: 14px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 14px;
+  border-top: 2px solid transparent;
+}
+
+.tab.active {
+  color: var(--accent);
+  border-top-color: var(--accent);
+}

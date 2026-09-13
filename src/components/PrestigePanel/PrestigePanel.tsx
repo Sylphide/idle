@@ -1,6 +1,8 @@
-import { useGameStore } from "../game/store";
-import { potentialPrestigeStars } from "../game/formulas";
-import { formatNumber } from "../game/format";
+import { useGameStore } from "../../game/store";
+import { potentialPrestigeStars } from "../../game/formulas";
+import { formatNumber } from "../../game/format";
+import { UpgradeCard } from "../UpgradeCard/UpgradeCard";
+import styles from "./PrestigePanel.module.css";
 
 export function PrestigePanel() {
   const totalGoldEarnedThisPrestige = useGameStore((s) => s.totalGoldEarnedThisPrestige);
@@ -10,17 +12,17 @@ export function PrestigePanel() {
   const buyStarUpgrade = useGameStore((s) => s.buyStarUpgrade);
 
   const gain = potentialPrestigeStars(totalGoldEarnedThisPrestige);
-  const canPrestige = gain > 0;
-  const upgradeCost = 1 + goldMultiLevel;
+  const canPrestige = gain.gt(0);
+  const starCost = 1 + goldMultiLevel;
 
   return (
-    <div className="prestige-panel">
+    <div className={styles.panel}>
       <p>
         Reset your progress on this run to earn <strong>{formatNumber(gain)} ⭐</strong>.
       </p>
       <p className="hint">Stars are permanent and boost all future gold gains.</p>
       <button
-        className="prestige-btn"
+        className={styles.prestigeBtn}
         disabled={!canPrestige}
         onClick={() => {
           if (!canPrestige) return;
@@ -31,19 +33,16 @@ export function PrestigePanel() {
         Reset for {formatNumber(gain)} ⭐
       </button>
 
-      <h3 className="shop-title">Star Shop</h3>
-      <div className="upgrade-card">
-        <div className="upgrade-info">
-          <div className="upgrade-name">
-            Gold Multiplier <span className="upgrade-level">Lv.{goldMultiLevel}</span>
-          </div>
-          <div className="upgrade-desc">Permanently increases all gold earned.</div>
-          <div className="upgrade-effect">+{(goldMultiLevel * 2).toFixed(0)}% gold</div>
-        </div>
-        <button className="buy-btn" disabled={stars < upgradeCost} onClick={() => buyStarUpgrade()}>
-          ⭐ {upgradeCost}
-        </button>
-      </div>
+      <h3 className={styles.shopTitle}>Star Shop</h3>
+      <UpgradeCard
+        name="Gold Multiplier"
+        level={goldMultiLevel}
+        description="Permanently increases all gold earned."
+        effect={`+${(goldMultiLevel * 2).toFixed(0)}% gold`}
+        costLabel={`⭐ ${starCost}`}
+        affordable={stars.gte(starCost)}
+        onBuy={() => buyStarUpgrade()}
+      />
     </div>
   );
 }

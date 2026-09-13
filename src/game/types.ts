@@ -1,3 +1,5 @@
+import type Decimal from "break_eternity.js";
+
 export interface UpgradeLevels {
   pickaxe: number;
   drone: number;
@@ -15,22 +17,24 @@ export interface Rock {
   y: number;
   /** Rendered diameter in pixels. */
   size: number;
-  hp: number;
-  maxHp: number;
+  hp: Decimal;
+  maxHp: Decimal;
   /** Reward rolled at spawn time, before golden/prestige multipliers. */
-  baseReward: number;
+  baseReward: Decimal;
   isGolden: boolean;
   color: string;
 }
 
 export interface GameState {
-  gold: number;
-  gems: number;
-  stars: number;
-  totalGoldEarned: number;
-  totalGoldEarnedThisPrestige: number;
+  gold: Decimal;
+  gems: Decimal;
+  stars: Decimal;
+  totalGoldEarned: Decimal;
+  totalGoldEarnedThisPrestige: Decimal;
   prestigeCount: number;
   zoneIndex: number;
+  /** Furthest zone ever reached, persisted; caps how far manual zone navigation can jump. */
+  maxZoneReached: number;
   rocksClearedInZone: number;
   rocks: Rock[];
   upgrades: UpgradeLevels;
@@ -40,4 +44,4 @@ export interface GameState {
   lastActiveAt: number;
 }
 
-export const STORAGE_KEY = "idle-obelisk-poc-save-v2";
+export const STORAGE_KEY = "idle-obelisk-poc-save-v4";

@@ -1,3 +1,4 @@
+import Decimal from "break_eternity.js";
 import type { UpgradeLevels } from "./types";
 
 export function tapDamage(upgrades: UpgradeLevels): number {
@@ -41,14 +42,14 @@ export function resolveTapHit(upgrades: UpgradeLevels): { damage: number; isCrit
 export function goldReward(
   upgrades: UpgradeLevels,
   starGoldMultiLevel: number,
-  baseReward: number,
+  baseReward: Decimal,
   isGolden: boolean,
-): number {
+): Decimal {
   const multi = (isGolden ? goldenMultiplier(upgrades) : 1) * prestigeGoldMultiplier(starGoldMultiLevel);
-  return baseReward * multi;
+  return baseReward.times(multi);
 }
 
-export function potentialPrestigeStars(totalGoldEarnedThisPrestige: number): number {
+export function potentialPrestigeStars(totalGoldEarnedThisPrestige: Decimal): Decimal {
   const divisor = 5000;
-  return Math.floor(Math.sqrt(totalGoldEarnedThisPrestige / divisor));
+  return totalGoldEarnedThisPrestige.div(divisor).sqrt().floor();
 }

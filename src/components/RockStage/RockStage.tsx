@@ -1,6 +1,8 @@
 import { useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
-import { useGameStore } from "../game/store";
-import { miningRadius } from "../game/formulas";
+import { useGameStore } from "../../game/store";
+import { miningRadius } from "../../game/formulas";
+import { cx } from "../../lib/cx";
+import styles from "./RockStage.module.css";
 
 const PULSE_INTERVAL_MS = 150;
 
@@ -99,7 +101,7 @@ export function RockStage() {
   return (
     <main
       ref={stageRef}
-      className="stage"
+      className={styles.stage}
       aria-label="Mining area: press and hold to mine rocks in a radius"
       onPointerDown={startMining}
       onPointerMove={moveMining}
@@ -111,7 +113,7 @@ export function RockStage() {
       {rocks.map((rock) => (
         <div
           key={rock.id}
-          className={`rock-item${rock.isGolden ? " golden" : ""}${breakingIds.has(rock.id) ? " breaking" : ""}`}
+          className={cx(styles.rockItem, rock.isGolden && styles.golden, breakingIds.has(rock.id) && styles.breaking)}
           style={
             {
               left: `${rock.x}%`,
@@ -122,24 +124,24 @@ export function RockStage() {
             } as CSSProperties
           }
         >
-          <div className="rock-hp-bar">
-            <div className="rock-hp-fill" style={{ width: `${(rock.hp / rock.maxHp) * 100}%` }} />
+          <div className={styles.rockHpBar}>
+            <div className={styles.rockHpFill} style={{ width: `${rock.hp.div(rock.maxHp).times(100).toNumber()}%` }} />
           </div>
         </div>
       ))}
 
       {pointerPx && (
         <div
-          className="mine-radius"
+          className={styles.mineRadius}
           style={{ left: pointerPx.x, top: pointerPx.y, width: radius * 2, height: radius * 2 }}
         />
       )}
 
-      <div className="floaters">
+      <div className={styles.floaters}>
         {floaters.map((f) => (
           <span
             key={f.id}
-            className={`floater${f.isCrit ? " crit" : ""}${f.isGolden ? " golden" : ""}`}
+            className={cx(styles.floater, f.isCrit && styles.crit, f.isGolden && styles.golden)}
             style={{ left: f.x, top: f.y }}
             onAnimationEnd={() => setFloaters((prev) => prev.filter((x) => x.id !== f.id))}
           >

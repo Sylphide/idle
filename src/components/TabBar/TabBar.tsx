@@ -1,3 +1,6 @@
+import { cx } from "../../lib/cx";
+import styles from "./TabBar.module.css";
+
 export type Tab = "mine" | "upgrades" | "prestige";
 
 const TABS: { key: Tab; label: string }[] = [
@@ -8,11 +11,11 @@ const TABS: { key: Tab; label: string }[] = [
 
 export function TabBar({ active, onChange }: { active: Tab; onChange: (tab: Tab) => void }) {
   return (
-    <nav className="tabs">
+    <nav className={styles.tabs}>
       {TABS.map((tab) => (
         <button
           key={tab.key}
-          className={`tab${active === tab.key ? " active" : ""}`}
+          className={cx(styles.tab, active === tab.key && styles.active)}
           onClick={() => onChange(tab.key)}
         >
           {tab.label}

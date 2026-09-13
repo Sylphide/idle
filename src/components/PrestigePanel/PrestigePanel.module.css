@@ -1,0 +1,25 @@
+.panel p {
+  font-size: 14px;
+}
+
+.prestigeBtn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #7a5ad1, #4a2f7a);
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.prestigeBtn:disabled {
+  opacity: 0.4;
+}
+
+.shopTitle {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin: 8px 0;
+}

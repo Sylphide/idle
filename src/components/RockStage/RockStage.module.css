@@ -1,0 +1,87 @@
+.stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.rockItem {
+  --rock-color: #8d7b68;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 42% 58% 55% 45% / 45% 42% 58% 55%;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--rock-color) 70%, white), var(--rock-color) 60%, color-mix(in srgb, var(--rock-color) 60%, black));
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease;
+}
+
+.rockItem.golden {
+  --rock-color: #ffd76a;
+  box-shadow: 0 0 24px rgba(255, 215, 106, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.35);
+}
+
+.rockItem.breaking {
+  animation: shake 0.2s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  25% { transform: translate(calc(-50% - 4px), calc(-50% + 2px)) scale(0.9); }
+  75% { transform: translate(calc(-50% + 4px), calc(-50% - 2px)) scale(0.9); }
+}
+
+.rockHpBar {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -10px;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.rockHpFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--danger), var(--accent));
+  transition: width 0.1s linear;
+}
+
+.mineRadius {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 215, 106, 0.75);
+  background: rgba(255, 215, 106, 0.1);
+  pointer-events: none;
+}
+
+.floaters {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.floater {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+  animation: float-up 0.7s ease-out forwards;
+}
+
+.floater.crit {
+  color: var(--danger);
+  font-size: 22px;
+}
+
+.floater.golden {
+  color: var(--accent);
+}
+
+@keyframes float-up {
+  0% { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(-50%, calc(-50% - 60px)); }
+}
