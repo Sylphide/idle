@@ -1,0 +1,26 @@
+# Node
+node_modules/
+dist/
+*.log
+npm-debug.log*
+
+# Editors / OS
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+
+# Capacitor / Android build output (native project itself is kept)
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+android/captures/
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+
+# Capacitor / iOS build output (added when an iOS platform is generated)
+ios/App/Pods/
+ios/App/build/
+ios/App/App/public/
+ios/App/App/capacitor.config.json
